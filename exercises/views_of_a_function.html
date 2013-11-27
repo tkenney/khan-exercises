@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-require="math math-format graphie interactive">
+<html data-require="math math-format graphie interactive word-problems">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Views of a function</title>
@@ -102,6 +102,7 @@
         <div id="graph-to-table">
             <div class="vars">
                 <var id="CORRECTOFFSET">0.5</var>
+				<var id="POSITIVEONLY">false</var>
             </div>
             <p class="question">
                 Create a table of values for the function in the graph below.
@@ -197,6 +198,10 @@
                     for (i = 0; i &lt; 8; ++i) {
                         if ($.trim(guess[i][0]) !== "" &amp;&amp;
                             $.trim(guess[i][1]) !== "") {
+							
+							if(guess[i][0] &lt 0 &amp;&amp POSITIVEONLY) {
+								return $._("You cannot enter negative x values");
+							}
                             attempted += 1;
                             validatePoint(guess[i][0]);
                         }
@@ -519,6 +524,39 @@
                             <var>roundToNearest(0.1, FUNC(x))</var></code>
                     </p>
                 </div>
+            </div>
+        </div>
+		<div id="word-to-table" data-type="graph-to-table">
+            <div class="vars">
+                <var id="FUNC,FUNCSHOW">randFromArray([
+                    [function(x) {
+                        return B * x + C;
+                    }, BSHOW + " x + " + C]
+                ])</var>
+                <var id="EXAMPLES">(function() {
+                    var xs = chooseXValues(FUNC, 1);
+                    if (xs.length &gt;= 5) {
+                        return sortNumbers(shuffle(xs, 5));
+                    } else {
+                        xs = chooseXValues(FUNC, 2);
+                        return sortNumbers(shuffle(xs, 5));
+                    }
+                })()</var>
+                <var id="CORRECTOFFSET">0.01</var>
+				<var id="B">randRangeNonZero(1, 5)</var>
+				<var id="C">randRangeNonZero(0, 10)</var>
+				<var id="POSITIVEONLY">true</var>
+            </div>
+            <p class="problem">
+				<var>person(1)</var> is a <var>farmer(1)</var> who wants to grow some <var>plural(crop(1))</var>. <var>capitalize(he(1))</var> currently has <var>C</var> <var>plural(crop(1), C)</var>. 
+				For every <var>field(1)</var> that <var>he(1)</var> plants, <var>he(1)</var> will harvest <var>B</var> <var>plural(crop(1), B)</var>.
+			</p>
+			<p class="question">
+				Read the problem below and use the information fill out the table with at least five pairs of values. Let <code>x</code> be the number of <var>plural(field(1))</var> that <var>person(1)</var>
+				plants, and let <code>y</code> be the number of <var>plural(crop(1))</var> that <var>he(1)</var> will have after harvest. Negative <code>x</code> values are not allowed in your answer.
+            </p>
+            <div class="hints">
+                
             </div>
         </div>
     </div>
