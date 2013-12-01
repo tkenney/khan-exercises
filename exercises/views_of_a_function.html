@@ -5,11 +5,25 @@
     <title>Views of a function</title>
     <script src="../khan-exercise.js"></script>
     <script type="text/javascript">
-        chooseXValues = function(func, scale) {
+        chooseXValues = function(func, scale, xMin, xMax, yMin, yMax ) {
             var xs = [];
-            _.each(_.range(-9, 10), function(x) {
+			
+			if(!xMin && xMin != 0) {
+				xMin = -9
+			}
+			if(!xMax && xMax != 0) {
+				xMax = 10
+			}
+			if(!yMin && yMin != 0) {
+				yMin = -9
+			}
+			if(!yMax && yMax != 0) {
+				yMax = 9
+			}
+			
+            _.each(_.range(xMin, xMax), function(x) {
                 var y = func(x);
-                if (Math.abs(y) > 9) {
+                if (y > yMax || y < yMin) {
                     return;
                 }
                 if (Math.abs(y - Math.round(y * scale) / scale) < 0.1) {
@@ -507,7 +521,7 @@
                     <code><var>EXAMPLES[0]</var></code> in the <code>x</code>
                     column, and
                     <code><var>roundToNearest(0.1, FUNC(EXAMPLES[0]))</var></code>
-                    in the cooresponding <code>y</code> column.
+                    in the corresponding <code>y</code> column.
                 </p>
                 <p>
                     Now, choose four more <code>x</code> values to plug into
@@ -534,11 +548,11 @@
                     }, BSHOW + " x + " + C]
                 ])</var>
                 <var id="EXAMPLES">(function() {
-                    var xs = chooseXValues(FUNC, 1);
+                    var xs = chooseXValues(FUNC, 1, 0, 10, 0, 100);
                     if (xs.length &gt;= 5) {
                         return sortNumbers(shuffle(xs, 5));
                     } else {
-                        xs = chooseXValues(FUNC, 2);
+                        xs = chooseXValues(FUNC, 2, 0, 15, 0, 100);
                         return sortNumbers(shuffle(xs, 5));
                     }
                 })()</var>
@@ -556,7 +570,56 @@
 				plants, and let <code>y</code> be the number of <var>plural(crop(1))</var> that <var>he(1)</var> will have after harvest. Negative <code>x</code> values are not allowed in your answer.
             </p>
             <div class="hints">
-                
+                <p>	You can look at a function in many different ways,
+                    including as a description of a real world scenario and as a table
+					of points. We have a description of a particular scenario,
+                    and in order to see more clearly how this function acts at
+                    a few points, we are going to record information about it in
+                    a table.</p>
+                <p>To represent the function as a table, pick some <code>x</code> values
+					(that is, the number of <var>plural(field(1))</var> that
+					<var>person(1)</var> plants) to plug into the word problem, 
+					and record that <code>x</code> and the result of plugging it
+					into the word problem (how many <var>plural(crop(1))</var> that
+					<var>person(1)</var> would have after harvest) in the table. 
+					It may also be helpful to think of the equation	that this description models.</p>
+                <p>For example, try plugging in
+                    <code><var>EXAMPLES[0]</var></code> to the problem description.</p>
+				<p>
+                    The result of <code>f(<var>EXAMPLES[0]</var>)</code> is
+                    <code><var>roundToNearest(0.1, FUNC(EXAMPLES[0]))</var></code>.
+					
+					In other words, if <var>person(1)</var> plants <var>EXAMPLES[0]</var> 
+					<var>plural(field(1), EXAMPLES[0])</var>, <var>he(1)</var> will
+					then end up with <var>roundToNearest(0.1, FUNC(EXAMPLES[0]))</var> 
+					<var>plural(crop(1), roundToNearest(0.1, FUNC(EXAMPLES[0])))</var>.
+					Remember that <var>he(1)</var> started with <var>C</var> <var>plural(crop(1), C)</var>
+					before any planting.
+					
+                    Record this in the table by putting
+                    <code><var>EXAMPLES[0]</var></code> in the <code>x</code>
+                    column, and
+                    <code><var>roundToNearest(0.1, FUNC(EXAMPLES[0]))</var></code>
+                    in the corresponding <code>y</code> column.
+                </p>
+				<p> 
+					The problem description can be modeled by the equation <code>y = <var>FUNCSHOW</var></code>
+				</p>
+				<p>
+                    Now, choose four more <code>x</code> values to plug into
+                    the problem description. Let's try the numbers
+                    <code><var>EXAMPLES[1]</var></code>,
+                    <code><var>EXAMPLES[2]</var></code>,
+                    <code><var>EXAMPLES[3]</var></code>,
+                    and <code><var>EXAMPLES[4]</var></code>.
+                </p>
+                <div>
+                    <p>By plugging into the description, we get:</p>
+                    <p data-each="EXAMPLES.slice(1) as x">
+                        <code>f(<var>x</var>) =
+                            <var>roundToNearest(0.1, FUNC(x))</var></code>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
